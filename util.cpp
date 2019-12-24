@@ -1,13 +1,43 @@
 #include <string>
 #include <vector>
+#include <iostream>
 
 std::vector<std::string> split(std::string s, char c) {
     std::vector<std::string> substrs;
-    int start = 0;
-    for (int end = s.find_first_of(c, start); end != std::string::npos; start = end, end = s.find_first_of(c, start)) {
-        substrs.push_back(s.substr(start, end));
+    unsigned int start = 0;
+    for (unsigned int end = s.find_first_of(c, start); end < s.length(); start = end + 1, end = s.find_first_of(c, start)) {
+        if (start < s.length())
+            substrs.push_back(s.substr(start, end - start));
     }
 
-    substrs.push_back(s.substr(start));
+    if (start > s.length())
+        substrs.push_back("");
+    else
+        substrs.push_back(s.substr(start));
+
     return substrs;
+}
+
+void *printLine(std::vector<std::string> row, void *args) {
+    uint64_t rowWidth = (uint64_t) args;
+    std::string rowString = "";
+    for (auto i = row.begin(); i != row.end(); i++) {
+        if (i != row.begin())
+            rowString += " | ";
+
+        int numSpaces = 0;
+        if ((*i).length() < rowWidth) {
+            numSpaces = rowWidth - (*i).length();
+        }
+
+        rowString += *i + std::string(numSpaces, ' ');
+    }
+    std::cout << rowString << std::endl;
+
+    return NULL;
+}
+
+void error(std::string msg) {
+    std::cout << msg << std::endl;
+    exit(EXIT_FAILURE);
 }
