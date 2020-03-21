@@ -2,10 +2,34 @@
 #include <vector>
 #include <iostream>
 
-std::vector<std::string> split(std::string s, char c) {
+std::vector<std::string> split(std::string s, char c, char wrapper) {
+    /*
+     * split - splits string into substrings by character
+     * 
+     * s - string to split
+     * c - character used to delineate string
+     * wrapper - optional character that will be stripped if surrounding a substring
+     * 
+     * return - vector of substrings
+     */
+
     std::vector<std::string> substrs;
     unsigned int start = 0;
     for (unsigned int end = s.find_first_of(c, start); end < s.length(); start = end + 1, end = s.find_first_of(c, start)) {
+        if (wrapper) {
+            unsigned int wrapped_start = s.find_first_of(wrapper, start);
+            unsigned int wrapped_end = s.length();
+
+            if (wrapped_start < end)    // If one wrapper char found, check for closing char
+                wrapped_end = s.find_first_of(wrapper, wrapped_start + 1);
+            
+            if (wrapped_end < s.length()) // Treat single wrapper chars as part of cell values
+                end = s.find_first_of(c, wrapped_end);    // Treat substring within wrapper char pair as one value
+
+            if (end >= s.length())
+                break;
+        }
+
         if (start < s.length())
             substrs.push_back(s.substr(start, end - start));
     }

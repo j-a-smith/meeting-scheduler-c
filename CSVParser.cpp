@@ -13,7 +13,7 @@ CSVParser::CSVParser(char* fileName) {
     unsigned int numHeaders = 0;
 
     if (getline(f, line)) {
-        this->columnHeaders = split(line, ',');
+        this->columnHeaders = split(line, ',', '\"');
         numHeaders = this->columnHeaders.size();
     }
 
@@ -21,7 +21,7 @@ CSVParser::CSVParser(char* fileName) {
         if (line.empty())
             continue;
     
-        vector<string> row = split(line, ',');
+        vector<string> row = split(line, ',', '\"');
         
         if (row.size() != numHeaders)
             error("Row size does not match number of headers");

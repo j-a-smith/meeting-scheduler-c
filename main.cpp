@@ -11,8 +11,7 @@ int main(int argc, char** argv) {
 
     CSVParser csv (argv[1]);
 
-    cout << csv.getCell(0, "First Name") << endl;
-    cout << csv.getCell(0, "Age") << endl;
+    csv.print();
 
     return 0;
 }

@@ -1,0 +1,15 @@
+CSVParser.h.gch
+util.o
+CSVParser.o
+main.o
+
+test.csv
+schedules.csv
+
+meeting-scheduler.exe
+
+TODO.txt
+output
+.project
+.metadata
+.vscode
